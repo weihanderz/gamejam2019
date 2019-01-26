@@ -1,16 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour {
+namespace Completed
+{
+	using System.Collections.Generic;
+	using UnityEngine.UI;
+    public class GameManager : MonoBehaviour
+    {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        private BoardManager boardScript;
+        // Use this for initialization
+        void Start()
+        {
+            boardScript = GetComponent<BoardManager>();
+            boardScript.SetupScene(1);
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
+    }
 }
