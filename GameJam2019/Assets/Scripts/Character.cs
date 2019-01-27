@@ -33,21 +33,20 @@ abstract public class Character : MonoBehaviour
         //Re-enable collider after linecast
         this.boxCollider.enabled = true;
 
+        bool move = true;
         //Check if anything was hit
-        if (hit.Length == 0)
+        if (hit.Length > 0)
         {
-            this.rb2D.transform.position += moveVec;
-        }
-        else
-        {
-            // Commented this out because player gets stuck inside objects
-            //moveVec = moveVec.normalized * hit.distance;
-            //this.rb2D.transform.position += moveVec;
+            // Don't allow running into envorment objects
             foreach (RaycastHit2D target in hit) {
-                this.OnCollide(target);
+                if (target.collider.gameObject.CompareTag("Environment")) {
+                    move = false;
+                    break;
+                }
             }
         }
-	}
 
-    abstract protected void OnCollide(RaycastHit2D target);
+        if (move)
+            this.rb2D.transform.position += moveVec;
+	}
 }

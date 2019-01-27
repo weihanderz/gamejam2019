@@ -73,11 +73,16 @@ public class Player : Character
         );
         this.boxCollider.enabled = true;
         foreach(Collider2D target in hit) {
-            Debug.Log("I hit " + target.ToString());
+            if (target.gameObject.CompareTag("Enemy")) {
+                Debug.Log("I hit an enemy!");
+            }
         }
     }
 
-    protected override void OnCollide(RaycastHit2D target) {
-        // do nothing special
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Enemy")) {
+            Debug.Log("Ouch!")
+;       }
     }
 }
