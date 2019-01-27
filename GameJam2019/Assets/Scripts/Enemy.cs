@@ -10,7 +10,7 @@ public class Enemy : Character {
     public float huntRadius = 5.0f;
 
     private Attack attackMelee;
-    private float attackMeleeRadius;
+    private CircleCollider2D attackMeleeCollider;
     private CircleCollider2D hurtBox;
 
 	// Use this for initialization
@@ -19,22 +19,32 @@ public class Enemy : Character {
 
         this.hurtBox = this.GetComponent<CircleCollider2D>();
         this.attackMelee = this.transform.Find("MeleeAttack").GetComponent<Attack>();
-        this.attackMeleeRadius = this.attackMelee.GetComponent<CircleCollider2D>().radius;
+        this.attackMeleeCollider = this.attackMelee.GetComponent<CircleCollider2D>();
 	}
 
 	// Update is called once per frame
 	protected override void FixedUpdate () {
         base.FixedUpdate();
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        Vector3 playerPos = playerObj.transform.position;
-        float playerDistance = Vector2.Distance(this.transform.position, playerPos);
 
-        if (playerDistance < this.attackMeleeRadius)
-            this.AttackMelee();
-        else if (playerDistance < huntRadius)
-            this.Move((playerPos - this.transform.position).normalized);
-        else
-            this.Move(Vector3.zero);
+        if (playerObj)
+        {
+            Collider2D playerCollider = playerObj.GetComponent<BoxCollider2D>();
+            float playerDistance = Vector2.Distance(this.transform.position, playerObj.transform.position);
+
+            //enable collider to calculate distance, then restore to prev state
+            bool enabledState = this.attackMeleeCollider.enabled;
+            this.attackMeleeCollider.enabled = true;
+            ColliderDistance2D playerColliderDistance = Physics2D.Distance(this.attackMeleeCollider, playerCollider);
+            this.attackMeleeCollider.enabled = enabledState;
+
+            if (playerColliderDistance.distance <= 0)
+                this.AttackMelee();
+            else if (playerDistance < huntRadius)
+                this.Move((playerObj.transform.position - this.transform.position).normalized);
+            else
+                this.Move(Vector3.zero);
+        }
 	}
 
     void OnTriggerEnter2D(Collider2D other)
