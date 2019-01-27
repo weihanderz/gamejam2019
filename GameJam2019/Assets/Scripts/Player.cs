@@ -69,4 +69,11 @@ public class Player : Character
         this.animator.SetTrigger("PlayerAttack");
         this.attackMelee.Execute();
     }
+
+    public override void Kill()
+    {
+        // set player as inactive instead of default destroy object
+        // don't break references for camera, etc.
+        this.gameObject.SetActive(false);
+    }
 }

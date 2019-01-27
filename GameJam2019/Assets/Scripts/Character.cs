@@ -99,7 +99,7 @@ abstract public class Character : MonoBehaviour
         }
     }
 
-    public void Kill()
+    public virtual void Kill()
     {
         GameObject.Destroy(this.gameObject);
     }
