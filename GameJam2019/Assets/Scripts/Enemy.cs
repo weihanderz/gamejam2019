@@ -6,11 +6,14 @@ public class Enemy : Character {
 
     public int touchDamage = 10;
     public float touchKnockback = 10;
+    public float attackCooldown = 3.0f;
 
     public float huntRadius = 5.0f;
 
     private Attack attackMelee;
     private CircleCollider2D attackMeleeCollider;
+    private float attackCooldownRemaining;
+
     private CircleCollider2D hurtBox;
 
 	// Use this for initialization
@@ -45,6 +48,11 @@ public class Enemy : Character {
             else
                 this.Move(Vector3.zero);
         }
+
+        if (this.attackCooldownRemaining > 0)
+        {
+            this.attackCooldownRemaining -= Time.deltaTime;
+        }
 	}
 
     void OnTriggerEnter2D(Collider2D other)
@@ -57,7 +65,11 @@ public class Enemy : Character {
 
     protected void AttackMelee ()
     {
-        this.animator.SetTrigger("Attack");
-        this.attackMelee.Execute();
+        if (this.attackCooldownRemaining <= 0)
+        {
+            this.animator.SetTrigger("Attack");
+            this.attackMelee.Execute();
+            this.attackCooldownRemaining = this.attackCooldown;
+        }
     }
 }
