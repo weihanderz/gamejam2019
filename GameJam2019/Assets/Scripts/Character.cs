@@ -2,14 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+abstract public class Character : MonoBehaviour
 {
-    public float speed;
+    // use some magic-ass fucking numbers that give a decent feel for this
+    private static float MAX_VELOCITY_PRECISION_SQUARED = 9.0f;
+    private static float IMPACT_BUFFER = 0.05f;
+    private static float DRAG_COEFFICIENT = 0.9f;
+
+    public float speed = 1;
 
     protected SpriteRenderer spriteRenderer;
     protected BoxCollider2D boxCollider;
     protected Rigidbody2D rb2D;
     protected Animator animator;
+    protected Vector3 velocity;
 
 	// Use this for initialization
 	protected virtual void Start () {
@@ -17,33 +23,49 @@ public class Character : MonoBehaviour
         this.animator = GetComponent<Animator>();
         this.boxCollider = GetComponent<BoxCollider2D>();
         this.rb2D = GetComponent<Rigidbody2D>();
+        this.velocity = new Vector3();
 	}
-	
-	// Update is called once per frame
-	protected void Move (Vector3 moveVec) {
-        moveVec *= this.speed * Time.deltaTime;
+
+    protected virtual void FixedUpdate()
+    {
+        if (this.velocity.sqrMagnitude > MAX_VELOCITY_PRECISION_SQUARED)
+        {
+            Debug.Log(this.velocity.sqrMagnitude);
+            float drag = velocity.sqrMagnitude * DRAG_COEFFICIENT * Time.deltaTime;
+            this.velocity -= velocity.normalized * drag;
+        }
+        else
+        {
+            this.velocity.Set(0, 0, 0);
+        }
+    }
+
+    // Update is called once per frame
+    protected void Move(Vector3 moveVec) {
+        moveVec = (moveVec * this.speed * Time.deltaTime) + (velocity * Time.deltaTime);
 
         //Disable the collider so that linecast doesn't hit this object's own collider.
         this.boxCollider.enabled = false;
 
         //Cast a line from start point to end point checking collision on blockingLayer.
         Vector3 curr = this.transform.position;
-        RaycastHit2D hit = Physics2D.BoxCast(curr, this.boxCollider.size, 0, moveVec, moveVec.magnitude);
+        RaycastHit2D [] hit = Physics2D.BoxCastAll(curr, this.boxCollider.size, 0, moveVec, moveVec.magnitude);
         
         //Re-enable collider after linecast
         this.boxCollider.enabled = true;
 
         //Check if anything was hit
-        if (hit.transform == null)
+        if (hit.Length > 0)
         {
-            this.rb2D.transform.position += moveVec;
+            // Don't allow running into envorment objects
+            foreach (RaycastHit2D target in hit) {
+                if (target.collider.gameObject.CompareTag("Environment")) {
+                    moveVec = (target.distance - IMPACT_BUFFER) * moveVec.normalized;
+                    break;
+                }
+            }
         }
-        else
-        {
-            // Commented this out because player gets stuck inside objects
-            //moveVec = moveVec.normalized * hit.distance;
-            //this.rb2D.transform.position += moveVec;
-            Debug.Log("HIT!");
-        }
+
+        this.rb2D.transform.position += moveVec;
 	}
 }
