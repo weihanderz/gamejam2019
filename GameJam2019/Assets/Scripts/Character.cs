@@ -9,13 +9,18 @@ abstract public class Character : MonoBehaviour
     private static float IMPACT_BUFFER = 0.05f;
     private static float DRAG_COEFFICIENT = 0.9f;
 
+    public int health;
     public float speed = 1;
+    public float dmgInvulnerabilityTime = 0.5f;
 
     protected SpriteRenderer spriteRenderer;
     protected BoxCollider2D boxCollider;
     protected Rigidbody2D rb2D;
     protected Animator animator;
     protected Vector3 velocity;
+
+    private float invulnerableStartTime = 0f;
+    private bool invulnerable = false;
 
 	// Use this for initialization
 	protected virtual void Start () {
@@ -38,6 +43,13 @@ abstract public class Character : MonoBehaviour
         {
             this.velocity.Set(0, 0, 0);
         }
+
+        if (
+            this.invulnerable &&
+            this.invulnerableStartTime + this.dmgInvulnerabilityTime <= Time.time
+        ) {
+            this.invulnerable = false;
+        }
     }
 
     // Update is called once per frame
@@ -54,18 +66,56 @@ abstract public class Character : MonoBehaviour
         //Re-enable collider after linecast
         this.boxCollider.enabled = true;
 
-        //Check if anything was hit
+        //Check for environment collisions, redirecto to slide along environment normals
         if (hit.Length > 0)
         {
-            // Don't allow running into envorment objects
             foreach (RaycastHit2D target in hit) {
                 if (target.collider.gameObject.CompareTag("Environment")) {
-                    moveVec = (target.distance - IMPACT_BUFFER) * moveVec.normalized;
+                    Vector2 reflect = Vector2.Reflect(moveVec, target.normal);
+                    float moveMagnitude = moveVec.magnitude;
+                    moveVec.x = (moveVec.x + reflect.x) / 2.0f;
+                    moveVec.y = (moveVec.y + reflect.y) / 2.0f;
                     break;
+                }
+            }
+            //Check new movement vector for environment collisions, stop movement from intersecting environment
+            hit = Physics2D.BoxCastAll(curr, this.boxCollider.size, 0, moveVec, moveVec.magnitude);
+            if (hit.Length > 0)
+            {
+                // Don't allow running into envorment objects
+                foreach (RaycastHit2D target in hit)
+                {
+                    if (target.collider.gameObject.CompareTag("Environment"))
+                    {
+                        moveVec = (target.distance - IMPACT_BUFFER) * moveVec.normalized;
+                    }
                 }
             }
         }
 
         this.rb2D.transform.position += moveVec;
 	}
+
+    public void Ouch(Collider2D attackCollider, int damage, float impact)
+    {
+        Vector3 impactVector = this.rb2D.transform.position - attackCollider.transform.position;
+        this.velocity = impactVector.normalized * impact;
+
+        if (!this.invulnerable)
+        {
+            this.invulnerable = true;
+            this.invulnerableStartTime = Time.time;
+
+            this.health -= damage;
+            if (this.health < 0)
+            {
+                this.Kill();
+            }
+        }
+    }
+
+    public virtual void Kill()
+    {
+        GameObject.Destroy(this.gameObject);
+    }
 }
