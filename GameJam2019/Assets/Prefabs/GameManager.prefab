@@ -52,6 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4b97b4df967e934f9e4f7d6cac7c2f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelStartDelay: 2
 --- !u!114 &114943232765877028
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -63,7 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5be8c7d6e55bd1444862a185d6584cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exit: {fileID: 1001146276339582, guid: a628c59ce46586d4388c95b990b6c176, type: 2}
+  exit: {fileID: 1572868668139552, guid: a9c5098904106494d82f7e73c7b407e5, type: 2}
   floorTiles:
   - {fileID: 1343206745826146, guid: c3be13f3eaf90e443979eec43b21099f, type: 2}
   - {fileID: 1438433445220478, guid: cad6383889f136f469845b66c6bab692, type: 2}

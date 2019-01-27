@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine.UI;	//Allows us to use UI.
+using UnityEngine.SceneManagement;
 
 internal delegate void PlayerActionEffect();
 
@@ -82,11 +84,22 @@ public class Player : Character
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if(other.tag == "Exit")
+        {
+            Debug.Log("I'm outta here!");
+            Invoke("Restart",1f);
+            enabled = false;
+        }
         if (other.gameObject.CompareTag("Enemy")) {
             this.Ouch(other, 10, 10);
             Debug.Log("Ouch!");
 ;       }
     }
+
+    	private void Restart ()
+		{
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+		}
 
     void Ouch(Collider2D enemyCollider, int damage, float impact)
     {
