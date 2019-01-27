@@ -242,15 +242,15 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 61982028983095012, guid: 711c9f5a8ef913a4f9fc03599639198d,
+    - target: {fileID: 114827803945526196, guid: 711c9f5a8ef913a4f9fc03599639198d,
         type: 2}
-      propertyPath: m_Size.x
-      value: 0.6
+      propertyPath: attackDelay
+      value: 0.1
       objectReference: {fileID: 0}
-    - target: {fileID: 61982028983095012, guid: 711c9f5a8ef913a4f9fc03599639198d,
+    - target: {fileID: 114827803945526196, guid: 711c9f5a8ef913a4f9fc03599639198d,
         type: 2}
-      propertyPath: m_Size.y
-      value: 0.5
+      propertyPath: attackDuration
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 711c9f5a8ef913a4f9fc03599639198d, type: 2}
@@ -404,7 +404,8 @@ MonoBehaviour:
   attackTargetTags:
   - Enemy
   attackKnockback: 10
-  attackDuration: 0.2
+  attackDuration: 0.1
+  attackDelay: 0.2
 --- !u!58 &1885209619
 CircleCollider2D:
   m_ObjectHideFlags: 0
