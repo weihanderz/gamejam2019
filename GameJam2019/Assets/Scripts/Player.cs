@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine.UI;	//Allows us to use UI.
+using UnityEngine.SceneManagement;
 
 internal delegate void PlayerActionEffect();
 
@@ -69,6 +71,21 @@ public class Player : Character
         this.animator.SetTrigger("PlayerAttack");
         this.attackMelee.Execute();
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.tag == "Exit")
+        {
+            Debug.Log("I'm outta here!");
+            Invoke("Restart",1f);
+            enabled = false;
+        }
+    }
+
+    private void Restart ()
+		{
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+		}
 
     public override void Kill()
     {
