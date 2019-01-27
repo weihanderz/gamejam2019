@@ -66,14 +66,29 @@ abstract public class Character : MonoBehaviour
         //Re-enable collider after linecast
         this.boxCollider.enabled = true;
 
-        //Check if anything was hit
+        //Check for environment collisions, redirecto to slide along environment normals
         if (hit.Length > 0)
         {
-            // Don't allow running into envorment objects
             foreach (RaycastHit2D target in hit) {
                 if (target.collider.gameObject.CompareTag("Environment")) {
-                    moveVec = (target.distance - IMPACT_BUFFER) * moveVec.normalized;
+                    Vector2 reflect = Vector2.Reflect(moveVec, target.normal);
+                    float moveMagnitude = moveVec.magnitude;
+                    moveVec.x = (moveVec.x + reflect.x) / 2.0f;
+                    moveVec.y = (moveVec.y + reflect.y) / 2.0f;
                     break;
+                }
+            }
+            //Check new movement vector for environment collisions, stop movement from intersecting environment
+            hit = Physics2D.BoxCastAll(curr, this.boxCollider.size, 0, moveVec, moveVec.magnitude);
+            if (hit.Length > 0)
+            {
+                // Don't allow running into envorment objects
+                foreach (RaycastHit2D target in hit)
+                {
+                    if (target.collider.gameObject.CompareTag("Environment"))
+                    {
+                        moveVec = (target.distance - IMPACT_BUFFER) * moveVec.normalized;
+                    }
                 }
             }
         }
