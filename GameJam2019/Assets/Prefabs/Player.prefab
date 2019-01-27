@@ -212,7 +212,8 @@ MonoBehaviour:
   attackTargetTags:
   - Enemy
   attackKnockback: 10
-  attackDuration: 0.2
+  attackDuration: 0.1
+  attackDelay: 0.1
 --- !u!212 &212051256390108800
 SpriteRenderer:
   m_ObjectHideFlags: 1

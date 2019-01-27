@@ -245,12 +245,12 @@ Prefab:
     - target: {fileID: 114827803945526196, guid: 711c9f5a8ef913a4f9fc03599639198d,
         type: 2}
       propertyPath: attackDelay
-      value: 0.1
+      value: 0.2
       objectReference: {fileID: 0}
-    - target: {fileID: 114827803945526196, guid: 711c9f5a8ef913a4f9fc03599639198d,
+    - target: {fileID: 212051256390108800, guid: 711c9f5a8ef913a4f9fc03599639198d,
         type: 2}
-      propertyPath: attackDuration
-      value: 0.1
+      propertyPath: m_SortingOrder
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 711c9f5a8ef913a4f9fc03599639198d, type: 2}
@@ -354,70 +354,3 @@ GameObject:
   m_PrefabParentObject: {fileID: 1698650004452532, guid: 711c9f5a8ef913a4f9fc03599639198d,
     type: 2}
   m_PrefabInternal: {fileID: 769682989}
---- !u!4 &1354863312 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4989945821584256, guid: 711c9f5a8ef913a4f9fc03599639198d,
-    type: 2}
-  m_PrefabInternal: {fileID: 769682989}
---- !u!1 &1885209616
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1885209617}
-  - component: {fileID: 1885209619}
-  - component: {fileID: 1885209618}
-  m_Layer: 0
-  m_Name: PlayerMeleeAttack
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1885209617
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1885209616}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1354863312}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1885209618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1885209616}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45bf8d4d1fd435049a1a2629860e2fab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackDamage: 10
-  attackTargetTags:
-  - Enemy
-  attackKnockback: 10
-  attackDuration: 0.1
-  attackDelay: 0.2
---- !u!58 &1885209619
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1885209616}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.9
