@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,9 +9,10 @@ public class Attack : MonoBehaviour {
     public string [] attackTargetTags;
     public float attackKnockback;
     public float attackDuration;
+    public float attackDelay;
 
     private Collider2D attackCollider;
-    private float attackTime;
+    private Nullable<float> attackTime = null;
 
 	// Use this for initialization
 	void Start () {
@@ -21,14 +23,28 @@ public class Attack : MonoBehaviour {
 
     public void Execute()
     {
-        this.attackCollider.enabled = true;
-        this.attackTime = Time.time;
+        if (this.attackTime == null)
+        {
+            this.attackTime = Time.time;
+        }
     }
 
     public void Update()
     {
-        if (this.attackCollider.enabled && this.attackTime + this.attackDuration <= Time.time)
-            this.attackCollider.enabled = false;
+        if (this.attackTime != null) {
+            if (
+                !this.attackCollider.enabled &&
+                this.attackTime + this.attackDelay <= Time.time
+            ) {
+                this.attackCollider.enabled = true;
+            } else if (
+                this.attackCollider.enabled &&
+                this.attackTime + this.attackDelay + this.attackDuration <= Time.time
+            ) {
+                this.attackCollider.enabled = false;
+                this.attackTime = null;
+            }
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
