@@ -65,10 +65,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   exit: {fileID: 1001146276339582, guid: a628c59ce46586d4388c95b990b6c176, type: 2}
   floorTiles:
-  - {fileID: 1354944958896304, guid: 284c24ca63828b34aa86d2f9aa18bc7d, type: 2}
+  - {fileID: 1343206745826146, guid: c3be13f3eaf90e443979eec43b21099f, type: 2}
+  - {fileID: 1438433445220478, guid: cad6383889f136f469845b66c6bab692, type: 2}
+  - {fileID: 1959032542782430, guid: a2399c82e65701a46bdce305763b9ac1, type: 2}
   wallTiles:
-  - {fileID: 1985934257075446, guid: 842202a042436e147bce9a1a53fd97c9, type: 2}
+  - {fileID: 1193481747165342, guid: a04f00ac11da66c4b874b88f14173276, type: 2}
   outerWallTiles:
-  - {fileID: 1985934257075446, guid: 842202a042436e147bce9a1a53fd97c9, type: 2}
+  - {fileID: 1193481747165342, guid: a04f00ac11da66c4b874b88f14173276, type: 2}
   enemyTiles:
   - {fileID: 1048789960825714, guid: b56f40a84a6a9614c8147294cf9cc9e3, type: 2}
