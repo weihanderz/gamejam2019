@@ -36,7 +36,8 @@ public class Player : Character
 	}
 	
 	// Update is called once per frame
-	protected void FixedUpdate () {
+	protected override void FixedUpdate () {
+        base.FixedUpdate();
         Vector3 moveVec = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
         this.Move(moveVec);
 	}
@@ -82,7 +83,14 @@ public class Player : Character
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Enemy")) {
-            Debug.Log("Ouch!")
+            this.Ouch(other, 10, 10);
+            Debug.Log("Ouch!");
 ;       }
+    }
+
+    void Ouch(Collider2D enemyCollider, int damage, float impact)
+    {
+        Vector3 impactVector = this.rb2D.transform.position - enemyCollider.transform.position;
+        this.velocity = impactVector.normalized * impact;
     }
 }
