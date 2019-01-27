@@ -26,12 +26,13 @@ namespace Completed
 		}
 		
 		
-		public int columns = 80; 										//Number of columns in our game board.
-		public int rows = 80;											//Number of rows in our game board.
-		public Count wallCount = new Count (40, 50);						//Lower and upper limit for our random number of walls per level.
+		private int columns = 10; 										//Number of columns in our game board.
+		private int rows = 10;											//Number of rows in our game board.
+		private Count wallCount = new Count (20, 30);						//Lower and upper limit for our random number of walls per level.
 		public GameObject[] floorTiles;									//Array of floor prefabs.
 		public GameObject[] wallTiles;									//Array of wall prefabs.
 		public GameObject[] outerWallTiles;								//Array of outer tile prefabs.
+		public GameObject[] enemyTiles;
 		
 		private Transform boardHolder;									//A variable to store a reference to the transform of our Board object.
 		private List <Vector3> gridPositions = new List <Vector3> ();	//A list of possible locations to place tiles.
@@ -135,6 +136,8 @@ namespace Completed
 			
 			//Instantiate a random number of wall tiles based on minimum and maximum, at randomized positions.
 			LayoutObjectAtRandom (wallTiles, wallCount.minimum, wallCount.maximum);
+
+			LayoutObjectAtRandom (enemyTiles, 1, 1);
 
 		}
 	}
