@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+abstract public class Character : MonoBehaviour
 {
     public float speed;
 
@@ -28,13 +28,13 @@ public class Character : MonoBehaviour
 
         //Cast a line from start point to end point checking collision on blockingLayer.
         Vector3 curr = this.transform.position;
-        RaycastHit2D hit = Physics2D.BoxCast(curr, this.boxCollider.size, 0, moveVec, moveVec.magnitude);
+        RaycastHit2D [] hit = Physics2D.BoxCastAll(curr, this.boxCollider.size, 0, moveVec, moveVec.magnitude);
         
         //Re-enable collider after linecast
         this.boxCollider.enabled = true;
 
         //Check if anything was hit
-        if (hit.transform == null)
+        if (hit.Length == 0)
         {
             this.rb2D.transform.position += moveVec;
         }
@@ -43,7 +43,11 @@ public class Character : MonoBehaviour
             // Commented this out because player gets stuck inside objects
             //moveVec = moveVec.normalized * hit.distance;
             //this.rb2D.transform.position += moveVec;
-            Debug.Log("HIT!");
+            foreach (RaycastHit2D target in hit) {
+                this.OnCollide(target);
+            }
         }
 	}
+
+    abstract protected void OnCollide(RaycastHit2D target);
 }

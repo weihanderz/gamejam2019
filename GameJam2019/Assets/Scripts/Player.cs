@@ -24,6 +24,8 @@ public class Player : Character
     public int health;
     public int size;
 
+    public float attackRadius;
+
     private List<PlayerAction> moveset = new List<PlayerAction>();
 
 	// Use this for initialization
@@ -64,5 +66,18 @@ public class Player : Character
     protected void Attack ()
     {
         this.animator.SetTrigger("PlayerAttack");
+        // disable own collider so we don't attack ourselves
+        this.boxCollider.enabled = false;
+        Collider2D[] hit = Physics2D.OverlapCircleAll(
+            this.transform.position, this.attackRadius
+        );
+        this.boxCollider.enabled = true;
+        foreach(Collider2D target in hit) {
+            Debug.Log("I hit " + target.ToString());
+        }
+    }
+
+    protected override void OnCollide(RaycastHit2D target) {
+        // do nothing special
     }
 }
