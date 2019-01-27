@@ -184,7 +184,8 @@ MonoBehaviour:
   dmgInvulnerabilityTime: 0.5
   touchDamage: 10
   touchKnockback: 10
-  huntRadius: 3
+  attackCooldown: 1.5
+  huntRadius: 6
 --- !u!114 &114838670078136094
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -201,7 +202,7 @@ MonoBehaviour:
   - Player
   attackKnockback: 10
   attackDuration: 0.1
-  attackDelay: 0.15
+  attackDelay: 0.3
 --- !u!212 &212594633138614890
 SpriteRenderer:
   m_ObjectHideFlags: 1
