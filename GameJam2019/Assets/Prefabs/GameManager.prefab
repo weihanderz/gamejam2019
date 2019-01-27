@@ -63,12 +63,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5be8c7d6e55bd1444862a185d6584cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  columns: 8
-  rows: 8
-  wallCount:
-    minimum: 5
-    maximum: 9
+  exit: {fileID: 1001146276339582, guid: a628c59ce46586d4388c95b990b6c176, type: 2}
   floorTiles:
-  - {fileID: 1896095654604508, guid: a26e51fe862b14845bb5f55c888ffb74, type: 2}
+  - {fileID: 1354944958896304, guid: 284c24ca63828b34aa86d2f9aa18bc7d, type: 2}
+  wallTiles:
+  - {fileID: 1985934257075446, guid: 842202a042436e147bce9a1a53fd97c9, type: 2}
   outerWallTiles:
   - {fileID: 1985934257075446, guid: 842202a042436e147bce9a1a53fd97c9, type: 2}
+  enemyTiles:
+  - {fileID: 1048789960825714, guid: b56f40a84a6a9614c8147294cf9cc9e3, type: 2}

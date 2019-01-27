@@ -28,7 +28,8 @@ namespace Completed
 		
 		private int columns = 10; 										//Number of columns in our game board.
 		private int rows = 10;											//Number of rows in our game board.
-		private Count wallCount = new Count (20, 30);						//Lower and upper limit for our random number of walls per level.
+		private Count wallCount = new Count (20, 30);					//Lower and upper limit for our random number of walls per level.
+		public GameObject exit;
 		public GameObject[] floorTiles;									//Array of floor prefabs.
 		public GameObject[] wallTiles;									//Array of wall prefabs.
 		public GameObject[] outerWallTiles;								//Array of outer tile prefabs.
@@ -138,6 +139,8 @@ namespace Completed
 			LayoutObjectAtRandom (wallTiles, wallCount.minimum, wallCount.maximum);
 
 			LayoutObjectAtRandom (enemyTiles, 1, 1);
+
+			Instantiate (exit, new Vector3 (columns -1, rows -1, 0f), Quaternion.identity);
 
 		}
 	}
