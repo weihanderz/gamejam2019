@@ -32,13 +32,18 @@ public class Character : MonoBehaviour
         
         //Re-enable collider after linecast
         this.boxCollider.enabled = true;
-        
+
         //Check if anything was hit
-        if(hit.transform != null)
+        if (hit.transform == null)
         {
-            moveVec = moveVec.normalized * hit.distance;
+            this.rb2D.transform.position += moveVec;
+        }
+        else
+        {
+            // Commented this out because player gets stuck inside objects
+            //moveVec = moveVec.normalized * hit.distance;
+            //this.rb2D.transform.position += moveVec;
             Debug.Log("HIT!");
         }
-        this.rb2D.transform.position += moveVec;
 	}
 }
