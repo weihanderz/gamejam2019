@@ -21,18 +21,18 @@ internal class PlayerAction
 
 public class Player : Character
 {
-    public int health;
     public int size;
 
-    public float attackRadius;
-
+    private Attack attackMelee;
     private List<PlayerAction> moveset = new List<PlayerAction>();
 
 	// Use this for initialization
 	protected override void Start () {
         base.Start();
 
-        moveset.Add(new PlayerAction(KeyCode.Space, 0.5f, Attack));
+        this.attackMelee = this.transform.Find("PlayerMeleeAttack").GetComponent<Attack>();
+
+        moveset.Add(new PlayerAction(KeyCode.Space, 0.5f, AttackMelee));
 	}
 	
 	// Update is called once per frame
@@ -64,33 +64,9 @@ public class Player : Character
         this.animator.SetTrigger("PlayerGrow");
     }
 
-    protected void Attack ()
+    protected void AttackMelee ()
     {
         this.animator.SetTrigger("PlayerAttack");
-        // disable own collider so we don't attack ourselves
-        this.boxCollider.enabled = false;
-        Collider2D[] hit = Physics2D.OverlapCircleAll(
-            this.transform.position, this.attackRadius
-        );
-        this.boxCollider.enabled = true;
-        foreach(Collider2D target in hit) {
-            if (target.gameObject.CompareTag("Enemy")) {
-                Debug.Log("I hit an enemy!");
-            }
-        }
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Enemy")) {
-            this.Ouch(other, 10, 10);
-            Debug.Log("Ouch!");
-;       }
-    }
-
-    void Ouch(Collider2D enemyCollider, int damage, float impact)
-    {
-        Vector3 impactVector = this.rb2D.transform.position - enemyCollider.transform.position;
-        this.velocity = impactVector.normalized * impact;
+        this.attackMelee.Execute();
     }
 }

@@ -9,13 +9,18 @@ abstract public class Character : MonoBehaviour
     private static float IMPACT_BUFFER = 0.05f;
     private static float DRAG_COEFFICIENT = 0.9f;
 
+    public int health;
     public float speed = 1;
+    public float dmgInvulnerabilityTime = 0.5f;
 
     protected SpriteRenderer spriteRenderer;
     protected BoxCollider2D boxCollider;
     protected Rigidbody2D rb2D;
     protected Animator animator;
     protected Vector3 velocity;
+
+    private float invulnerableStartTime = 0f;
+    private bool invulnerable = false;
 
 	// Use this for initialization
 	protected virtual void Start () {
@@ -37,6 +42,13 @@ abstract public class Character : MonoBehaviour
         else
         {
             this.velocity.Set(0, 0, 0);
+        }
+
+        if (
+            this.invulnerable &&
+            this.invulnerableStartTime + this.dmgInvulnerabilityTime <= Time.time
+        ) {
+            this.invulnerable = false;
         }
     }
 
@@ -68,4 +80,27 @@ abstract public class Character : MonoBehaviour
 
         this.rb2D.transform.position += moveVec;
 	}
+
+    public void Ouch(Collider2D attackCollider, int damage, float impact)
+    {
+        Vector3 impactVector = this.rb2D.transform.position - attackCollider.transform.position;
+        this.velocity = impactVector.normalized * impact;
+
+        if (!this.invulnerable)
+        {
+            this.invulnerable = true;
+            this.invulnerableStartTime = Time.time;
+
+            this.health -= damage;
+            if (this.health < 0)
+            {
+                this.Kill();
+            }
+        }
+    }
+
+    public void Kill()
+    {
+        GameObject.Destroy(this.gameObject);
+    }
 }
