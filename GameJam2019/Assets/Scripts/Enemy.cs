@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class Enemy : Character {
 
+    private static string[] SHELL_DISTRIBUTION = new string[] {
+        "Shell1", "Shell1", "Shell1",
+        "Shell2", "Shell2",
+        "Shell3"
+    };
+
+    public GameObject[] shellPickups;
+
     public int touchDamage = 10;
     public float touchKnockback = 10;
     public float attackCooldown = 3.0f;
@@ -16,6 +24,8 @@ public class Enemy : Character {
 
     private CircleCollider2D hurtBox;
 
+    private string shellType;
+
 	// Use this for initialization
 	protected override void Start () {
         base.Start();
@@ -23,6 +33,19 @@ public class Enemy : Character {
         this.hurtBox = this.GetComponent<CircleCollider2D>();
         this.attackMelee = this.transform.Find("MeleeAttack").GetComponent<Attack>();
         this.attackMeleeCollider = this.attackMelee.GetComponent<CircleCollider2D>();
+
+        // spawn with a random type of shell
+        this.shellType = SHELL_DISTRIBUTION[
+            (int)(Random.value * (SHELL_DISTRIBUTION.Length - 1))
+        ];
+        foreach(string shellTypeName in new HashSet<string>(SHELL_DISTRIBUTION))
+        {
+            if (this.shellType != shellTypeName)
+            {
+                SpriteRenderer shellSprite = this.transform.Find(shellTypeName).GetComponent<SpriteRenderer>();
+                shellSprite.enabled = false;
+            }
+        }
 	}
 
 	// Update is called once per frame
@@ -71,5 +94,16 @@ public class Enemy : Character {
             this.attackMelee.Execute();
             this.attackCooldownRemaining = this.attackCooldown;
         }
+    }
+
+    public override void Kill()
+    {
+        if (this.shellType == "Shell1")
+            Instantiate(shellPickups[0], this.transform.position, Quaternion.identity);
+        else if (this.shellType == "Shell2")
+            Instantiate(shellPickups[1], this.transform.position, Quaternion.identity);
+        else if (this.shellType == "Shell3")
+            Instantiate(shellPickups[2], this.transform.position, Quaternion.identity);
+        base.Kill();
     }
 }
