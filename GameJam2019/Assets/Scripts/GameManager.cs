@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using System.Collections.Generic;
 using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
@@ -11,13 +10,19 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
     private Text levelText;
     private GameObject levelImage;
+    private GameObject restartButton;
     private BoardManager boardScript;
     // Use this for initialization
     private int level = 1;
     private bool doingSetup = true;
+
+    private Player player;
+
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
+
     void Awake()
     {
         if (instance == null)
@@ -46,6 +51,8 @@ public class GameManager : MonoBehaviour
         doingSetup = true;
         levelImage = GameObject.Find("LevelImage");
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
+        restartButton = GameObject.Find("RestartButton");
+        restartButton.SetActive(false);
         levelText.text = "Stage " + level;
         levelImage.SetActive(true);
         Invoke("HideLevelImage", levelStartDelay);
@@ -62,8 +69,19 @@ public class GameManager : MonoBehaviour
     {
         levelText.text = "YOU ARE DEAD";
         levelImage.SetActive(true);
+        restartButton.SetActive(true);
         //Disable this GameManager.
         enabled = false;
+    }
+
+    public void Reset()
+    {
+        //Enable this GameManager.
+        enabled = true;
+        this.player.health = 50;
+        this.level = 1;
+        this.player.gameObject.SetActive(true);
+        this.InitGame();
     }
 
 

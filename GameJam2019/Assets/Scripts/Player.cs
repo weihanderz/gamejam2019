@@ -99,7 +99,7 @@ public class Player : Character
         // set player as inactive instead of default destroy object
         // don't break references for camera, etc.
         this.gameObject.SetActive(false);
-        GameManager.instance.GameOver ();
+        GameManager.instance.GameOver();
 
     }
 
