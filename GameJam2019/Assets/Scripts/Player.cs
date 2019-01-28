@@ -28,11 +28,14 @@ public class Player : Character
     private Attack attackMelee;
     private List<PlayerAction> moveset = new List<PlayerAction>();
 
+    private SpriteRenderer playerShellSprite;
+
 	// Use this for initialization
 	protected override void Start () {
         base.Start();
 
         this.attackMelee = this.transform.Find("PlayerMeleeAttack").GetComponent<Attack>();
+        this.playerShellSprite = this.transform.Find("PlayerShell").GetComponent<SpriteRenderer>();
 
         moveset.Add(new PlayerAction(KeyCode.Space, 0.5f, AttackMelee));
 	}
@@ -79,6 +82,11 @@ public class Player : Character
             Debug.Log("I'm outta here!");
             Invoke("Restart",1f);
             enabled = false;
+        }
+        else if (other.tag == "Pickup")
+        {
+            this.playerShellSprite.sprite = other.GetComponent<SpriteRenderer>().sprite;
+            GameObject.Destroy(other.gameObject);
         }
     }
 
