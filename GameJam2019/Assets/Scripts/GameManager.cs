@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
     private Text levelText;
     private GameObject levelImage;
-    private GameObject restartButton;
     private BoardManager boardScript;
     // Use this for initialization
     private int level = 1;
@@ -51,8 +50,6 @@ public class GameManager : MonoBehaviour
         doingSetup = true;
         levelImage = GameObject.Find("LevelImage");
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
-        restartButton = GameObject.Find("RestartButton");
-        restartButton.SetActive(false);
         levelText.text = "Stage " + level;
         levelImage.SetActive(true);
         Invoke("HideLevelImage", levelStartDelay);
@@ -69,9 +66,9 @@ public class GameManager : MonoBehaviour
     {
         levelText.text = "YOU ARE DEAD";
         levelImage.SetActive(true);
-        restartButton.SetActive(true);
         //Disable this GameManager.
         enabled = false;
+        Invoke("Reset", 5f);
     }
 
     public void Reset()
