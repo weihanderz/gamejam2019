@@ -28,7 +28,7 @@ namespace Completed
 		
 		private int columns = 10; 										//Number of columns in our game board.
 		private int rows = 10;											//Number of rows in our game board.
-		private Count wallCount = new Count (5, 10);					//Lower and upper limit for our random number of walls per level.
+		private Count wallCount = new Count (15, 20);					//Lower and upper limit for our random number of walls per level.
 		public GameObject exit;
 		public GameObject[] floorTiles;									//Array of floor prefabs.
 		public GameObject[] wallTiles;									//Array of wall prefabs.
@@ -75,12 +75,13 @@ namespace Completed
 					
 					//Check if we current position is at board edge, if so choose a random outer wall prefab from our array of outer wall tiles.
 					if(x == -1 || x == columns || y == -1 || y == rows)
+					{
 						toInstantiate = outerWallTiles [Random.Range (0, outerWallTiles.Length)];
+					}
 					
 					//Instantiate the GameObject instance using the prefab chosen for toInstantiate at the Vector3 corresponding to current grid position in loop, cast it to GameObject.
 					GameObject instance =
 						Instantiate (toInstantiate, new Vector3 (x, y, 0f), Quaternion.identity) as GameObject;
-					
 					//Set the parent of our newly instantiated object instance to boardHolder, this is just organizational to avoid cluttering hierarchy.
 					instance.transform.SetParent (boardHolder);
 				}
@@ -141,7 +142,6 @@ namespace Completed
 			LayoutObjectAtRandom (enemyTiles, 1, 1);
 
 			Instantiate (exit, new Vector3 (columns -1, rows -1, 0f), Quaternion.identity);
-
 		}
 	}
 }
