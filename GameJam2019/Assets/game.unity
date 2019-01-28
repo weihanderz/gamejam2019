@@ -217,7 +217,7 @@ Prefab:
     - target: {fileID: 114943232765877028, guid: 8346c7a2db240bd45ac714af62cb6434,
         type: 2}
       propertyPath: wallTiles.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114943232765877028, guid: 8346c7a2db240bd45ac714af62cb6434,
         type: 2}
@@ -293,6 +293,12 @@ Prefab:
       propertyPath: exit
       value: 
       objectReference: {fileID: 1572868668139552, guid: a9c5098904106494d82f7e73c7b407e5,
+        type: 2}
+    - target: {fileID: 114943232765877028, guid: 8346c7a2db240bd45ac714af62cb6434,
+        type: 2}
+      propertyPath: wallTiles.Array.data[1]
+      value: 
+      objectReference: {fileID: 1609231148335868, guid: 183b54499e048914088f96f7becad559,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8346c7a2db240bd45ac714af62cb6434, type: 2}
