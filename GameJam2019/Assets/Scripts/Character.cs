@@ -15,7 +15,6 @@ abstract public class Character : MonoBehaviour
 
     protected SpriteRenderer spriteRenderer;
     protected BoxCollider2D boxCollider;
-    protected Rigidbody2D rb2D;
     protected Animator animator;
     protected Vector3 velocity;
 
@@ -27,7 +26,6 @@ abstract public class Character : MonoBehaviour
         this.spriteRenderer = GetComponent<SpriteRenderer>();
         this.animator = GetComponent<Animator>();
         this.boxCollider = GetComponent<BoxCollider2D>();
-        this.rb2D = GetComponent<Rigidbody2D>();
         this.velocity = new Vector3();
 	}
 
@@ -93,12 +91,19 @@ abstract public class Character : MonoBehaviour
             }
         }
 
-        this.rb2D.transform.position += moveVec;
+        if (moveVec.x > 0 && !this.spriteRenderer.flipX)
+        {
+            this.spriteRenderer.flipX = true;
+        } else if (moveVec.x < 0 && this.spriteRenderer.flipX) {
+            this.spriteRenderer.flipX = false;
+        }
+
+        this.transform.position += moveVec;
 	}
 
     public void Ouch(Collider2D attackCollider, int damage, float impact)
     {
-        Vector3 impactVector = this.rb2D.transform.position - attackCollider.transform.position;
+        Vector3 impactVector = this.transform.position - attackCollider.transform.position;
         this.velocity = impactVector.normalized * impact;
 
         if (!this.invulnerable)
