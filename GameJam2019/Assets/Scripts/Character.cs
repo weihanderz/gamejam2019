@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 abstract public class Character : MonoBehaviour
 {
     // use some magic-ass fucking numbers that give a decent feel for this
@@ -122,5 +123,6 @@ abstract public class Character : MonoBehaviour
     public virtual void Kill()
     {
         GameObject.Destroy(this.gameObject);
+        
     }
 }

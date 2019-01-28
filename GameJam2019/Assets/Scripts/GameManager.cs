@@ -56,6 +56,15 @@ namespace Completed
             doingSetup=false;
         }
 
+        public void GameOver()
+		{			
+			//Enable black background image gameObject.
+			levelImage.SetActive(true);
+			
+			//Disable this GameManager.
+			enabled = false;
+		}
+
         
         // Update is called once per frame
         void Update()
